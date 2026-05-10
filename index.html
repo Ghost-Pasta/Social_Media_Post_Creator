@@ -129,9 +129,9 @@ h1,h2,h3{font-family:'DM Serif Display',serif}
   <div class="panel-left">
 
     <div class="api-key-box">
-      <label>🔑 Google Gemini API Key (Free)</label>
-      <input type="password" id="apiKey" placeholder="AIza..." autocomplete="off">
-      <p>Free, no credit card required. Get your key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a> → "Get API Key"</p>
+      <label>🔑 Groq API Key (Free)</label>
+      <input type="password" id="apiKey" placeholder="gsk_..." autocomplete="off">
+      <p>Free, no credit card required. Get your key at <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a> → "Create API Key"</p>
     </div>
 
     <div class="field">
@@ -255,19 +255,23 @@ function platformBadge(platform) {
   return `<span class="badge" style="background:#f5f5f5;color:#555">${escHtml(platform)}</span>`;
 }
 
-async function callGemini(prompt, apiKey) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
-  const resp = await fetch(url, {
+async function callGroq(prompt, apiKey) {
+  const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
     body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.8, maxOutputTokens: 1000 }
+      model: 'llama-3.3-70b-versatile',
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.8,
+      max_tokens: 1000
     })
   });
   const data = await resp.json();
   if (data.error) throw new Error(data.error.message);
-  return data.candidates[0].content.parts.map(p => p.text || '').join('');
+  return data.choices[0].message.content;
 }
 
 async function generateForRow(row, college, tone, apiKey) {
@@ -292,7 +296,7 @@ Return ONLY valid JSON (no markdown, no backticks) in this exact format:
   "keywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
 }`;
 
-  const raw = await callGemini(prompt, apiKey);
+  const raw = await callGroq(prompt, apiKey);
   const clean = raw.replace(/```json|```/g, '').trim();
   return JSON.parse(clean);
 }
@@ -352,7 +356,7 @@ function copySEO(idx, btn) {
 async function generatePosts() {
   hideError();
   const apiKey = document.getElementById('apiKey').value.trim();
-  if (!apiKey) { showError('Please enter your Google Gemini API key first.'); return; }
+  if (!apiKey) { showError('Please enter your Groq API key first.'); return; }
 
   const csvText = document.getElementById('csvInput').value.trim();
   if (!csvText) { showError('Please paste CSV data or upload a CSV file first.'); return; }
