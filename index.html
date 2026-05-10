@@ -9,182 +9,218 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --navy:#0f1f3d;--navy-mid:#1a3260;--accent:#e8632a;--accent-light:#fff0ea;
-  --gold:#f0a500;--surface:#f7f5f0;--white:#ffffff;--border:#e2ddd6;
+  --surface:#f7f5f0;--white:#ffffff;--border:#e2ddd6;
   --text:#1a1a1a;--muted:#6b6560;--success:#2a7a3b;--success-bg:#edf7ef;
 }
 body{font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);min-height:100vh}
 h1,h2,h3{font-family:'DM Serif Display',serif}
 
-.header{background:var(--navy);padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between}
-.header-logo{display:flex;align-items:center;gap:10px}
-.header-logo span{font-family:'DM Serif Display',serif;font-size:1.25rem;color:#fff;letter-spacing:0.02em}
-.header-logo .dot{width:8px;height:8px;background:var(--accent);border-radius:50%;display:inline-block}
-.header-tag{font-size:11px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.1em}
+/* HEADER */
+.header{background:var(--navy);padding:1.1rem 2rem;display:flex;align-items:center;gap:12px}
+.header-logo{font-family:'DM Serif Display',serif;font-size:1.2rem;color:#fff;display:flex;align-items:center;gap:8px}
+.header-dot{width:8px;height:8px;background:var(--accent);border-radius:50%}
+.header-tag{font-size:11px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.1em}
 
-.layout{display:grid;grid-template-columns:360px 1fr;min-height:calc(100vh - 64px)}
-.panel-left{background:var(--white);border-right:1px solid var(--border);padding:1.5rem;display:flex;flex-direction:column;gap:1.25rem;overflow-y:auto}
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:380px 1fr;height:calc(100vh - 56px)}
+.panel-left{background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.panel-left-scroll{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
 .panel-right{padding:1.5rem;display:flex;flex-direction:column;gap:1rem;overflow-y:auto}
 
-.api-key-box{background:#fffbf0;border:1px solid #f0c060;border-radius:10px;padding:1rem}
-.api-key-box label{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#7a5c00;display:block;margin-bottom:0.4rem}
-.api-key-box input{width:100%;border:1px solid #e0c070;border-radius:7px;padding:0.55rem 0.75rem;font-family:'DM Sans',sans-serif;font-size:0.82rem;background:#fffff8;color:var(--text)}
+/* FIELDS */
+.api-key-box{background:#fffbf0;border:1px solid #f0c060;border-radius:10px;padding:0.875rem}
+.api-key-box label{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#7a5c00;display:block;margin-bottom:0.35rem}
+.api-key-box input{width:100%;border:1px solid #e0c070;border-radius:7px;padding:0.5rem 0.7rem;font-family:'DM Sans',sans-serif;font-size:0.82rem;background:#fffff8;color:var(--text)}
 .api-key-box input:focus{outline:none;border-color:#b8860b}
-.api-key-box p{font-size:0.72rem;color:#8a6800;margin-top:0.4rem;line-height:1.5}
+.api-key-box p{font-size:0.7rem;color:#8a6800;margin-top:0.35rem;line-height:1.5}
 .api-key-box a{color:#b8860b}
 
-.upload-zone{border:2px dashed var(--border);border-radius:12px;padding:1.5rem;text-align:center;cursor:pointer;transition:all 0.2s;position:relative}
-.upload-zone:hover{border-color:var(--accent);background:var(--accent-light)}
-.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.upload-icon{font-size:1.75rem;margin-bottom:0.4rem;display:block}
-.upload-zone h3{font-size:0.9rem;color:var(--text);margin-bottom:0.2rem}
-.upload-zone p{font-size:0.75rem;color:var(--muted)}
+.field label{font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.35rem}
+.field input,.field select{width:100%;border:1px solid var(--border);border-radius:8px;padding:0.55rem 0.7rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;background:var(--white);color:var(--text);transition:border-color 0.2s}
+.field input:focus,.field select:focus{outline:none;border-color:var(--navy-mid)}
 
-.or-divider{display:flex;align-items:center;gap:0.75rem;color:var(--muted);font-size:0.78rem}
-.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+/* CALENDAR */
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem}
+.cal-title{font-size:0.95rem;font-weight:600;color:var(--navy)}
+.cal-nav{display:flex;gap:4px}
+.cal-nav button{width:28px;height:28px;border:1px solid var(--border);border-radius:6px;background:var(--white);cursor:pointer;font-size:0.85rem;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.cal-nav button:hover{border-color:var(--navy);color:var(--navy)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-dow{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);text-align:center;padding:4px 0}
+.cal-day{aspect-ratio:1;border-radius:8px;border:1px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;position:relative;font-size:0.82rem;color:var(--text);background:var(--surface)}
+.cal-day:hover{border-color:var(--accent);background:var(--accent-light)}
+.cal-day.empty{background:transparent;border-color:transparent;cursor:default}
+.cal-day.today{border-color:var(--navy-mid);font-weight:700;color:var(--navy)}
+.cal-day.has-posts{background:#fff0ea}
+.cal-day .post-badge{position:absolute;top:3px;right:3px;width:16px;height:16px;background:var(--accent);color:#fff;border-radius:50%;font-size:0.6rem;font-weight:700;display:flex;align-items:center;justify-content:center}
 
-.field label{font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.4rem}
-.field input,.field select,.field textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:0.6rem 0.75rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;background:var(--white);color:var(--text);transition:border-color 0.2s}
-.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--navy-mid)}
-.field textarea{height:140px;resize:vertical;line-height:1.5}
+/* SCHEDULE LIST */
+.schedule-section-title{font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em}
+.schedule-list{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto}
+.schedule-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.6rem 0.75rem;display:flex;align-items:flex-start;gap:8px}
+.schedule-item-info{flex:1;min-width:0}
+.schedule-item-date{font-size:0.75rem;font-weight:600;color:var(--navy)}
+.schedule-item-topic{font-size:0.75rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.schedule-item-delete{background:none;border:none;cursor:pointer;color:var(--muted);font-size:1rem;padding:0 2px;line-height:1;flex-shrink:0;transition:color 0.15s}
+.schedule-item-delete:hover{color:#b91c1c}
+.schedule-empty{font-size:0.8rem;color:var(--muted);text-align:center;padding:1rem;background:var(--surface);border-radius:8px;border:1px dashed var(--border)}
 
-.csv-hint{font-size:0.72rem;color:var(--muted);margin-top:0.4rem;line-height:1.6}
-.csv-hint code{background:var(--surface);padding:1px 5px;border-radius:4px;font-size:0.68rem;border:1px solid var(--border)}
+/* GENERATE BUTTON */
+.btn-generate{width:100%;padding:0.8rem;background:var(--accent);color:#fff;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;margin:0.75rem 1.25rem 1.25rem;width:calc(100% - 2.5rem)}
+.btn-generate:hover{background:#c9501f}
+.btn-generate:disabled{background:#c9bdb6;cursor:not-allowed}
 
-.btn-generate{width:100%;padding:0.875rem;background:var(--accent);color:#fff;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-generate:hover{background:#c9501f;transform:translateY(-1px)}
-.btn-generate:disabled{background:#c9bdb6;cursor:not-allowed;transform:none}
+/* MODAL OVERLAY */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,31,61,0.45);z-index:100;display:flex;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.hidden{display:none}
+.modal{background:var(--white);border-radius:16px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.2)}
+.modal-header{padding:1.25rem 1.25rem 0;display:flex;align-items:center;justify-content:space-between}
+.modal-header h3{font-size:1.1rem;color:var(--navy)}
+.modal-close{background:none;border:none;font-size:1.25rem;cursor:pointer;color:var(--muted);width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:6px;transition:background 0.15s}
+.modal-close:hover{background:var(--surface)}
+.modal-body{padding:1.25rem;display:flex;flex-direction:column;gap:0.875rem}
+.modal-field label{font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.35rem}
+.modal-field select,.modal-field input,.modal-field textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:0.55rem 0.7rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;background:var(--white);color:var(--text);transition:border-color 0.2s}
+.modal-field select:focus,.modal-field input:focus,.modal-field textarea:focus{outline:none;border-color:var(--navy-mid)}
+.modal-field textarea{height:90px;resize:none;line-height:1.5}
+.modal-fields-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
 
-.empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1rem;padding:3rem}
-.empty-icon{font-size:3.5rem}
-.empty-state h2{font-size:1.5rem;color:var(--navy)}
-.empty-state p{font-size:0.9rem;color:var(--muted);max-width:320px;line-height:1.6}
-.empty-state code{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:0.5rem 0.75rem;font-size:0.75rem;display:block;text-align:left;white-space:pre;margin-top:0.5rem;color:var(--text)}
+/* MEDIA UPLOAD IN MODAL */
+.media-upload-zone{border:2px dashed var(--border);border-radius:10px;padding:1rem;text-align:center;cursor:pointer;position:relative;transition:all 0.2s}
+.media-upload-zone:hover{border-color:var(--accent);background:var(--accent-light)}
+.media-upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.media-upload-zone p{font-size:0.78rem;color:var(--muted)}
+.media-preview{margin-top:0.5rem;border-radius:8px;overflow:hidden;max-height:160px;display:none}
+.media-preview img,.media-preview video{width:100%;height:160px;object-fit:cover;border-radius:8px}
 
+/* EXISTING POSTS IN MODAL */
+.modal-existing{background:var(--surface);border-radius:10px;padding:0.75rem;display:flex;flex-direction:column;gap:6px}
+.modal-existing-title{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:2px}
+.modal-existing-item{display:flex;align-items:center;gap:8px;font-size:0.78rem;color:var(--text)}
+.modal-existing-item .badge{flex-shrink:0}
+.modal-existing-item-del{margin-left:auto;background:none;border:none;cursor:pointer;color:var(--muted);font-size:0.9rem;transition:color 0.15s}
+.modal-existing-item-del:hover{color:#b91c1c}
+.modal-divider{height:1px;background:var(--border);margin:0.25rem 0}
+.modal-new-title{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent)}
+
+.btn-add{width:100%;padding:0.7rem;background:var(--navy);color:#fff;border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;transition:background 0.2s}
+.btn-add:hover{background:var(--navy-mid)}
+
+/* RIGHT PANEL */
+.empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:0.75rem;padding:3rem}
+.empty-icon{font-size:3rem}
+.empty-state h2{font-size:1.4rem;color:var(--navy)}
+.empty-state p{font-size:0.88rem;color:var(--muted);max-width:300px;line-height:1.6}
+
+/* PROGRESS */
 .progress-wrap{background:var(--white);border-radius:12px;padding:1.25rem;border:1px solid var(--border)}
 .progress-title{font-size:0.85rem;font-weight:600;color:var(--navy);margin-bottom:0.75rem;display:flex;align-items:center;gap:8px}
 .progress-bar-bg{background:var(--surface);border-radius:99px;height:6px;overflow:hidden}
 .progress-bar-fill{height:100%;background:var(--accent);border-radius:99px;transition:width 0.4s ease}
-.progress-steps{display:flex;flex-direction:column;gap:6px;margin-top:0.75rem}
+.progress-steps{display:flex;flex-direction:column;gap:5px;margin-top:0.75rem}
 .progress-step{font-size:0.78rem;color:var(--muted);display:flex;align-items:center;gap:8px}
 .step-dot{width:7px;height:7px;border-radius:50%;background:var(--border);flex-shrink:0}
 .step-dot.done{background:var(--success)}
 .step-dot.active{background:var(--accent);animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 
-.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem}
-.results-header h2{font-size:1.1rem;color:var(--navy)}
-.results-count{font-size:0.78rem;color:var(--muted);background:var(--surface);padding:3px 10px;border-radius:99px;border:1px solid var(--border)}
+/* RESULTS */
+.results-header{display:flex;align-items:center;justify-content:space-between}
+.results-header h2{font-size:1.05rem;color:var(--navy)}
+.results-count{font-size:0.75rem;color:var(--muted);background:var(--surface);padding:3px 10px;border-radius:99px;border:1px solid var(--border)}
 .posts-grid{display:flex;flex-direction:column;gap:1rem}
 
+/* POST CARDS */
 .post-card{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:box-shadow 0.2s}
 .post-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.08)}
-.post-card-header{padding:0.875rem 1rem;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);background:var(--surface)}
-.post-date-info div:first-child{font-size:0.82rem;font-weight:600;color:var(--navy)}
-.post-date-info div:last-child{font-size:0.74rem;color:var(--muted);margin-top:1px}
+.post-card-header{padding:0.75rem 1rem;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);background:var(--surface)}
+.post-date-info div:first-child{font-size:0.8rem;font-weight:600;color:var(--navy)}
+.post-date-info div:last-child{font-size:0.72rem;color:var(--muted);margin-top:1px}
 .platform-badges{display:flex;gap:5px;margin-left:auto}
-.badge{font-size:0.68rem;font-weight:600;padding:2px 9px;border-radius:99px}
+.badge{font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:99px}
 .badge-ig{background:#fce4ec;color:#c2185b}
 .badge-fb{background:#e3f2fd;color:#1565c0}
 .badge-both{background:#ede7f6;color:#4527a0}
 
+.post-card-media{width:100%;max-height:220px;object-fit:cover;display:block;border-bottom:1px solid var(--border)}
+.post-card-media-video{width:100%;max-height:220px;display:block;border-bottom:1px solid var(--border)}
+
 .post-card-body{display:grid;grid-template-columns:1fr 1fr}
 .post-section{padding:1rem}
 .post-section+.post-section{border-left:1px solid var(--border)}
-.section-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:0.5rem;display:flex;align-items:center;gap:5px}
+.section-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:0.5rem}
 .caption-text{font-size:0.82rem;line-height:1.7;color:var(--text);white-space:pre-wrap;word-break:break-word}
-.seo-title{font-size:0.85rem;font-weight:600;color:var(--navy);margin-bottom:0.35rem}
-.seo-desc{font-size:0.8rem;line-height:1.6;color:var(--muted);margin-bottom:0.5rem}
+.seo-title{font-size:0.83rem;font-weight:600;color:var(--navy);margin-bottom:0.3rem}
+.seo-desc{font-size:0.78rem;line-height:1.6;color:var(--muted)}
 .seo-keywords{display:flex;flex-wrap:wrap;gap:4px;margin-top:0.4rem}
-.keyword{font-size:0.68rem;padding:2px 8px;background:var(--accent-light);color:var(--accent);border-radius:99px;border:1px solid #f5c4a9}
+.keyword{font-size:0.65rem;padding:2px 7px;background:var(--accent-light);color:var(--accent);border-radius:99px;border:1px solid #f5c4a9}
 
-.post-card-footer{padding:0.625rem 1rem;border-top:1px solid var(--border);display:flex;gap:6px;justify-content:flex-end;background:var(--surface)}
-.btn-copy{font-size:0.75rem;padding:5px 14px;border:1px solid var(--border);border-radius:6px;background:var(--white);color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.post-card-footer{padding:0.6rem 1rem;border-top:1px solid var(--border);display:flex;gap:6px;justify-content:flex-end;background:var(--surface)}
+.btn-copy{font-size:0.75rem;padding:4px 12px;border:1px solid var(--border);border-radius:6px;background:var(--white);color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s}
 .btn-copy:hover{border-color:var(--navy);color:var(--navy)}
 .btn-copy.copied{background:var(--success-bg);border-color:var(--success);color:var(--success)}
 
 .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
-
 .error-msg{background:#fff5f5;border:1px solid #fca5a5;border-radius:8px;padding:0.75rem 1rem;font-size:0.82rem;color:#b91c1c;line-height:1.5}
-
-@media(max-width:800px){
-  .layout{grid-template-columns:1fr}
-  .post-card-body{grid-template-columns:1fr}
-  .post-section+.post-section{border-left:none;border-top:1px solid var(--border)}
-}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-logo">
-    <div class="dot"></div>
-    <span>PostCraft</span>
-    <span class="header-tag">— Community College Social Media</span>
-  </div>
+  <div class="header-logo"><div class="header-dot"></div>PostCraft</div>
+  <span class="header-tag">Community College Social Media</span>
 </div>
 
 <div class="layout">
+
   <!-- LEFT PANEL -->
   <div class="panel-left">
+    <div class="panel-left-scroll">
 
-    <div class="api-key-box">
-      <label>🔑 Groq API Key (Free)</label>
-      <input type="password" id="apiKey" placeholder="gsk_..." autocomplete="off">
-      <p>Free, no credit card required. Get your key at <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a> → "Create API Key"</p>
-    </div>
-
-    <div class="field">
-      <label>College name</label>
-      <input type="text" id="collegeName" placeholder="e.g. Riverside Community College">
-    </div>
-
-    <div class="field">
-      <label>Tone / voice</label>
-      <select id="tone">
-        <option value="friendly and approachable">Friendly &amp; approachable</option>
-        <option value="professional and informative">Professional &amp; informative</option>
-        <option value="energetic and motivational">Energetic &amp; motivational</option>
-        <option value="warm and community-focused">Warm &amp; community-focused</option>
-      </select>
-    </div>
-
-    <div class="upload-zone" id="uploadZone">
-      <input type="file" id="csvFile" accept=".csv,.txt" onchange="handleFileUpload(event)">
-      <span class="upload-icon">📋</span>
-      <h3>Upload schedule CSV</h3>
-      <p>Click to browse or drag &amp; drop</p>
-    </div>
-
-    <div class="or-divider">or paste CSV directly</div>
-
-    <div class="field">
-      <label>Paste CSV data</label>
-      <textarea id="csvInput" placeholder="date,time,platform,topic,description&#10;2025-05-12,10:00 AM,Instagram,Fall Enrollment,Remind students that fall enrollment is now open"></textarea>
-      <div class="csv-hint">
-        Required columns: <code>date</code> <code>time</code> <code>platform</code> <code>topic</code> <code>description</code><br>
-        Platform values: <code>Instagram</code> <code>Facebook</code> <code>Both</code>
+      <div class="api-key-box">
+        <label>🔑 Groq API Key (Free)</label>
+        <input type="password" id="apiKey" placeholder="gsk_..." autocomplete="off">
+        <p>Free key at <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a> → Create API Key</p>
       </div>
+
+      <div class="field">
+        <label>College name</label>
+        <input type="text" id="collegeName" placeholder="e.g. Riverside Community College">
+      </div>
+
+      <!-- CALENDAR -->
+      <div>
+        <div class="cal-header">
+          <div class="cal-title" id="calTitle">May 2025</div>
+          <div class="cal-nav">
+            <button onclick="changeMonth(-1)">&#8592;</button>
+            <button onclick="changeMonth(1)">&#8594;</button>
+          </div>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+
+      <!-- SCHEDULED POSTS LIST -->
+      <div class="schedule-section-title">Scheduled Posts</div>
+      <div class="schedule-list" id="scheduleList">
+        <div class="schedule-empty">No posts scheduled yet. Click a day on the calendar to add one.</div>
+      </div>
+
     </div>
 
-    <div id="errorMsg" class="error-msg" style="display:none"></div>
-
+    <!-- GENERATE BUTTON pinned at bottom -->
     <button class="btn-generate" id="genBtn" onclick="generatePosts()">
-      <span id="genBtnText">✦ Generate Posts</span>
+      <span id="genBtnText">✦ Generate All Posts</span>
     </button>
-
   </div>
 
   <!-- RIGHT PANEL -->
   <div class="panel-right" id="rightPanel">
     <div class="empty-state" id="emptyState">
       <div class="empty-icon">🗓️</div>
-      <h2>Ready to create posts</h2>
-      <p>Enter your API key, college name, paste or upload your CSV schedule, then click Generate.</p>
-      <code>date,time,platform,topic,description
-2025-05-12,10:00 AM,Instagram,Fall Enrollment,Enrollment is open
-2025-05-14,2:00 PM,Facebook,Campus Event,Spring career fair
-2025-05-16,9:00 AM,Both,Student Spotlight,Feature a student</code>
+      <h2>Build your schedule</h2>
+      <p>Click any day on the calendar to schedule a post, then click Generate All Posts to create captions and SEO for each one.</p>
     </div>
     <div id="progressWrap" style="display:none" class="progress-wrap">
       <div class="progress-title"><div class="spinner"></div> Generating posts…</div>
@@ -201,60 +237,282 @@ h1,h2,h3{font-family:'DM Serif Display',serif}
   </div>
 </div>
 
+<!-- MODAL -->
+<div class="modal-overlay hidden" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Schedule Post</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Existing posts for this day -->
+      <div class="modal-existing" id="modalExisting" style="display:none">
+        <div class="modal-existing-title">Posts already scheduled this day</div>
+        <div id="modalExistingList"></div>
+        <div class="modal-divider"></div>
+        <div class="modal-new-title">Add another post</div>
+      </div>
+
+      <div class="modal-fields-row">
+        <div class="modal-field">
+          <label>Platform</label>
+          <select id="mPlatform">
+            <option value="Instagram">Instagram</option>
+            <option value="Facebook">Facebook</option>
+            <option value="Both">Both (IG + FB)</option>
+          </select>
+        </div>
+        <div class="modal-field">
+          <label>Time to post</label>
+          <input type="time" id="mTime" value="09:00">
+        </div>
+      </div>
+
+      <div class="modal-field">
+        <label>Tone / Voice</label>
+        <select id="mTone">
+          <option value="friendly and approachable">Friendly &amp; approachable</option>
+          <option value="professional and informative">Professional &amp; informative</option>
+          <option value="energetic and motivational">Energetic &amp; motivational</option>
+          <option value="warm and community-focused">Warm &amp; community-focused</option>
+        </select>
+      </div>
+
+      <div class="modal-field">
+        <label>What is this post about?</label>
+        <textarea id="mTopic" placeholder="e.g. Fall enrollment is now open. Encourage students to register for classes and mention the deadline is August 1st."></textarea>
+      </div>
+
+      <div class="modal-field">
+        <label>Upload graphic or video (optional)</label>
+        <div class="media-upload-zone" id="mediaUploadZone">
+          <input type="file" id="mMedia" accept="image/*,video/*" onchange="handleMediaUpload(event)">
+          <p>📎 Click to upload image or video</p>
+        </div>
+        <div class="media-preview" id="mediaPreview"></div>
+      </div>
+
+      <button class="btn-add" onclick="addPost()">Add to Schedule</button>
+
+    </div>
+  </div>
+</div>
+
 <script>
-function handleFileUpload(e) {
+// ─── STATE ───────────────────────────────────────────────
+const today = new Date();
+let currentYear = today.getFullYear();
+let currentMonth = today.getMonth(); // 0-indexed
+let scheduledPosts = []; // [{id, date, dateStr, time, platform, tone, topic, mediaDataUrl, mediaType}]
+let currentDayStr = null;
+let mediaDataUrl = null;
+let mediaType = null;
+let postIdCounter = 0;
+
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+// ─── CALENDAR ────────────────────────────────────────────
+function renderCalendar() {
+  document.getElementById('calTitle').textContent = `${MONTHS[currentMonth]} ${currentYear}`;
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+
+  // Day of week headers
+  DAYS.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'cal-dow';
+    el.textContent = d;
+    grid.appendChild(el);
+  });
+
+  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+  // Empty cells before first day
+  for (let i = 0; i < firstDay; i++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day empty';
+    grid.appendChild(el);
+  }
+
+  // Day cells
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const postsOnDay = scheduledPosts.filter(p => p.dateStr === dateStr);
+    const isToday = d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+
+    const el = document.createElement('div');
+    el.className = 'cal-day' + (isToday ? ' today' : '') + (postsOnDay.length > 0 ? ' has-posts' : '');
+    el.textContent = d;
+    el.onclick = () => openModal(dateStr, d);
+
+    if (postsOnDay.length > 0) {
+      const badge = document.createElement('div');
+      badge.className = 'post-badge';
+      badge.textContent = postsOnDay.length;
+      el.appendChild(badge);
+    }
+
+    grid.appendChild(el);
+  }
+}
+
+function changeMonth(dir) {
+  currentMonth += dir;
+  if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+  if (currentMonth < 0)  { currentMonth = 11; currentYear--; }
+  renderCalendar();
+}
+
+// ─── MODAL ───────────────────────────────────────────────
+function openModal(dateStr, day) {
+  currentDayStr = dateStr;
+  mediaDataUrl = null;
+  mediaType = null;
+  document.getElementById('mediaPreview').style.display = 'none';
+  document.getElementById('mediaPreview').innerHTML = '';
+  document.getElementById('mMedia').value = '';
+  document.getElementById('mTopic').value = '';
+  document.getElementById('mTime').value = '09:00';
+  document.getElementById('mPlatform').value = 'Instagram';
+  document.getElementById('mTone').value = 'friendly and approachable';
+
+  const label = `${MONTHS[currentMonth]} ${day}, ${currentYear}`;
+  document.getElementById('modalTitle').textContent = `📅 ${label}`;
+
+  // Show existing posts for this day
+  const existing = scheduledPosts.filter(p => p.dateStr === dateStr);
+  const existingWrap = document.getElementById('modalExisting');
+  const existingList = document.getElementById('modalExistingList');
+
+  if (existing.length > 0) {
+    existingList.innerHTML = existing.map(p => `
+      <div class="modal-existing-item">
+        ${platformBadge(p.platform)}
+        <span>${p.time} · ${escHtml(p.topic.substring(0,40))}${p.topic.length>40?'…':''}</span>
+        <button class="modal-existing-item-del" onclick="deletePost(${p.id})" title="Remove">✕</button>
+      </div>`).join('');
+    existingWrap.style.display = 'block';
+  } else {
+    existingWrap.style.display = 'none';
+  }
+
+  document.getElementById('modalOverlay').classList.remove('hidden');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.add('hidden');
+  currentDayStr = null;
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+function handleMediaUpload(e) {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = ev => { document.getElementById('csvInput').value = ev.target.result.trim(); };
-  reader.readAsText(file);
-  document.getElementById('uploadZone').style.borderColor = '#2a7a3b';
-  document.getElementById('uploadZone').querySelector('p').textContent = file.name + ' loaded ✓';
+  reader.onload = ev => {
+    mediaDataUrl = ev.target.result;
+    mediaType = file.type.startsWith('video') ? 'video' : 'image';
+    const preview = document.getElementById('mediaPreview');
+    preview.style.display = 'block';
+    if (mediaType === 'video') {
+      preview.innerHTML = `<video class="post-card-media-video" src="${mediaDataUrl}" controls></video>`;
+    } else {
+      preview.innerHTML = `<img src="${mediaDataUrl}" style="width:100%;height:140px;object-fit:cover;border-radius:8px;">`;
+    }
+  };
+  reader.readAsDataURL(file);
 }
 
-function parseCSV(text) {
-  const lines = text.trim().split(/\r?\n/).filter(l => l.trim());
-  if (lines.length < 2) throw new Error('CSV must have a header row and at least one data row.');
-  const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/[^a-z0-9]/g, ''));
-  const rows = [];
-  for (let i = 1; i < lines.length; i++) {
-    const vals = smartSplit(lines[i]);
-    const row = {};
-    headers.forEach((h, j) => row[h] = (vals[j] || '').trim().replace(/^"|"$/g, ''));
-    rows.push(row);
+function addPost() {
+  const topic = document.getElementById('mTopic').value.trim();
+  if (!topic) { alert('Please describe what this post is about.'); return; }
+  if (!currentDayStr) return;
+
+  const [y, m, d] = currentDayStr.split('-').map(Number);
+  const timeVal = document.getElementById('mTime').value;
+  const [h, min] = timeVal.split(':');
+  const hr = parseInt(h);
+  const ampm = hr >= 12 ? 'PM' : 'AM';
+  const hr12 = hr % 12 || 12;
+  const timeDisplay = `${hr12}:${min} ${ampm}`;
+
+  scheduledPosts.push({
+    id: ++postIdCounter,
+    dateStr: currentDayStr,
+    date: new Date(y, m-1, d),
+    dateDisplay: `${MONTHS[m-1]} ${d}, ${y}`,
+    time: timeDisplay,
+    platform: document.getElementById('mPlatform').value,
+    tone: document.getElementById('mTone').value,
+    topic,
+    mediaDataUrl: mediaDataUrl,
+    mediaType: mediaType
+  });
+
+  closeModal();
+  renderCalendar();
+  renderScheduleList();
+}
+
+function deletePost(id) {
+  scheduledPosts = scheduledPosts.filter(p => p.id !== id);
+  // If modal is open refresh its existing list
+  if (currentDayStr) {
+    const existing = scheduledPosts.filter(p => p.dateStr === currentDayStr);
+    const existingWrap = document.getElementById('modalExisting');
+    const existingList = document.getElementById('modalExistingList');
+    if (existing.length > 0) {
+      existingList.innerHTML = existing.map(p => `
+        <div class="modal-existing-item">
+          ${platformBadge(p.platform)}
+          <span>${p.time} · ${escHtml(p.topic.substring(0,40))}${p.topic.length>40?'…':''}</span>
+          <button class="modal-existing-item-del" onclick="deletePost(${p.id})" title="Remove">✕</button>
+        </div>`).join('');
+    } else {
+      existingWrap.style.display = 'none';
+    }
   }
-  return rows;
+  renderCalendar();
+  renderScheduleList();
 }
 
-function smartSplit(line) {
-  const result = []; let cur = ''; let inQ = false;
-  for (const c of line) {
-    if (c === '"') { inQ = !inQ; }
-    else if (c === ',' && !inQ) { result.push(cur); cur = ''; }
-    else cur += c;
+function renderScheduleList() {
+  const list = document.getElementById('scheduleList');
+  if (scheduledPosts.length === 0) {
+    list.innerHTML = '<div class="schedule-empty">No posts scheduled yet. Click a day on the calendar to add one.</div>';
+    return;
   }
-  result.push(cur);
-  return result;
+  const sorted = [...scheduledPosts].sort((a,b) => a.date - b.date || a.time.localeCompare(b.time));
+  list.innerHTML = sorted.map(p => `
+    <div class="schedule-item">
+      <div class="schedule-item-info">
+        <div class="schedule-item-date">${p.dateDisplay} · ${p.time} ${platformBadge(p.platform)}</div>
+        <div class="schedule-item-topic">${escHtml(p.topic)}</div>
+      </div>
+      <button class="schedule-item-delete" onclick="deletePost(${p.id})" title="Remove">✕</button>
+    </div>`).join('');
 }
 
-function showError(msg) {
-  const el = document.getElementById('errorMsg');
-  el.textContent = msg; el.style.display = 'block';
-}
-function hideError() { document.getElementById('errorMsg').style.display = 'none'; }
-
+// ─── HELPERS ─────────────────────────────────────────────
 function escHtml(s) {
-  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
 function platformBadge(platform) {
-  const p = (platform || '').toLowerCase();
-  if (p.includes('both') || (p.includes('instagram') && p.includes('facebook'))) return '<span class="badge badge-both">IG + FB</span>';
+  const p = (platform||'').toLowerCase();
+  if (p.includes('both')) return '<span class="badge badge-both">IG + FB</span>';
   if (p.includes('instagram')) return '<span class="badge badge-ig">Instagram</span>';
   if (p.includes('facebook')) return '<span class="badge badge-fb">Facebook</span>';
   return `<span class="badge" style="background:#f5f5f5;color:#555">${escHtml(platform)}</span>`;
 }
 
+// ─── GROQ API ─────────────────────────────────────────────
 async function callGroq(prompt, apiKey) {
   const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
@@ -274,23 +532,16 @@ async function callGroq(prompt, apiKey) {
   return data.choices[0].message.content;
 }
 
-async function generateForRow(row, college, tone, apiKey) {
-  const platform = row.platform || row.platforms || 'Social Media';
-  const topic = row.topic || row.subject || row.title || '';
-  const desc = row.description || row.caption || row.details || row.content || '';
-  const date = row.date || '';
-  const time = row.time || '';
-
+async function generateForPost(post, college, apiKey) {
   const prompt = `You are a social media content creator for ${college || 'a community college'}.
-Generate content for a ${platform} post with a ${tone} tone.
+Generate content for a ${post.platform} post with a ${post.tone} tone.
 
-Topic: ${topic}
-Brief description: ${desc}
-Post date/time: ${date} ${time}
+Topic / description: ${post.topic}
+Post date: ${post.dateDisplay} at ${post.time}
 
 Return ONLY valid JSON (no markdown, no backticks) in this exact format:
 {
-  "caption": "The full social media caption with emojis and hashtags appropriate for ${platform}. Make it engaging and complete.",
+  "caption": "The full social media caption with emojis and hashtags appropriate for ${post.platform}. Make it engaging and complete.",
   "seo_title": "An SEO-optimized title (60 chars max)",
   "seo_description": "An SEO meta description summarizing this post (155 chars max)",
   "keywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
@@ -301,21 +552,28 @@ Return ONLY valid JSON (no markdown, no backticks) in this exact format:
   return JSON.parse(clean);
 }
 
-function renderCard(row, result, idx) {
-  const platform = row.platform || row.platforms || 'Social Media';
-  const topic = row.topic || row.subject || '';
-  const date = row.date || '';
-  const time = row.time || '';
-  const keywords = (result.keywords || []).map(k => `<span class="keyword">${escHtml(k)}</span>`).join('');
+// ─── RENDER CARD ─────────────────────────────────────────
+function renderCard(post, result, idx) {
+  const keywords = (result.keywords||[]).map(k=>`<span class="keyword">${escHtml(k)}</span>`).join('');
+
+  let mediaHtml = '';
+  if (post.mediaDataUrl) {
+    if (post.mediaType === 'video') {
+      mediaHtml = `<video class="post-card-media-video" src="${post.mediaDataUrl}" controls></video>`;
+    } else {
+      mediaHtml = `<img class="post-card-media" src="${post.mediaDataUrl}" alt="Post graphic">`;
+    }
+  }
 
   return `<div class="post-card" id="card-${idx}">
     <div class="post-card-header">
       <div class="post-date-info">
-        <div>📅 ${escHtml(date)} &nbsp;·&nbsp; ${escHtml(time)}</div>
-        <div>${escHtml(topic)}</div>
+        <div>📅 ${escHtml(post.dateDisplay)} &nbsp;·&nbsp; ${escHtml(post.time)}</div>
+        <div>${escHtml(post.topic.substring(0,60))}${post.topic.length>60?'…':''}</div>
       </div>
-      <div class="platform-badges">${platformBadge(platform)}</div>
+      <div class="platform-badges">${platformBadge(post.platform)}</div>
     </div>
+    ${mediaHtml}
     <div class="post-card-body">
       <div class="post-section">
         <div class="section-label">✍️ Social Media Caption</div>
@@ -335,39 +593,31 @@ function renderCard(row, result, idx) {
   </div>`;
 }
 
+// ─── COPY ─────────────────────────────────────────────────
 function copyCaption(idx, btn) {
-  const text = document.getElementById('cap-' + idx).innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = 'Copied! ✓'; btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'Copy caption'; btn.classList.remove('copied'); }, 2000);
+  navigator.clipboard.writeText(document.getElementById('cap-'+idx).innerText).then(()=>{
+    btn.textContent='Copied! ✓';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy caption';btn.classList.remove('copied');},2000);
   });
 }
-
 function copySEO(idx, btn) {
-  const title = document.getElementById('seotitle-' + idx).innerText;
-  const desc = document.getElementById('seodesc-' + idx).innerText;
-  const kws = Array.from(document.getElementById('seokw-' + idx).querySelectorAll('.keyword')).map(k => k.innerText).join(', ');
-  navigator.clipboard.writeText(`SEO Title: ${title}\n\nMeta Description: ${desc}\n\nKeywords: ${kws}`).then(() => {
-    btn.textContent = 'Copied! ✓'; btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'Copy SEO'; btn.classList.remove('copied'); }, 2000);
+  const title=document.getElementById('seotitle-'+idx).innerText;
+  const desc=document.getElementById('seodesc-'+idx).innerText;
+  const kws=Array.from(document.getElementById('seokw-'+idx).querySelectorAll('.keyword')).map(k=>k.innerText).join(', ');
+  navigator.clipboard.writeText(`SEO Title: ${title}\n\nMeta Description: ${desc}\n\nKeywords: ${kws}`).then(()=>{
+    btn.textContent='Copied! ✓';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy SEO';btn.classList.remove('copied');},2000);
   });
 }
 
+// ─── GENERATE ────────────────────────────────────────────
 async function generatePosts() {
-  hideError();
   const apiKey = document.getElementById('apiKey').value.trim();
-  if (!apiKey) { showError('Please enter your Groq API key first.'); return; }
-
-  const csvText = document.getElementById('csvInput').value.trim();
-  if (!csvText) { showError('Please paste CSV data or upload a CSV file first.'); return; }
-
-  let rows;
-  try { rows = parseCSV(csvText); }
-  catch(e) { showError('CSV parse error: ' + e.message); return; }
-  if (!rows.length) { showError('No data rows found in CSV.'); return; }
+  if (!apiKey) { alert('Please enter your Groq API key first.'); return; }
+  if (scheduledPosts.length === 0) { alert('Please schedule at least one post on the calendar first.'); return; }
 
   const college = document.getElementById('collegeName').value.trim() || 'a community college';
-  const tone = document.getElementById('tone').value;
+  const sorted = [...scheduledPosts].sort((a,b)=>a.date-b.date);
 
   const btn = document.getElementById('genBtn');
   btn.disabled = true;
@@ -380,42 +630,46 @@ async function generatePosts() {
   const stepsEl = document.getElementById('progressSteps');
   const fillEl = document.getElementById('progressFill');
 
-  stepsEl.innerHTML = rows.map((r, i) => {
-    const topic = r.topic || r.subject || `Row ${i+1}`;
-    return `<div class="progress-step" id="step-${i}"><div class="step-dot" id="dot-${i}"></div>${escHtml(topic)}</div>`;
-  }).join('');
+  stepsEl.innerHTML = sorted.map((p,i)=>`
+    <div class="progress-step" id="step-${i}">
+      <div class="step-dot" id="dot-${i}"></div>
+      ${escHtml(p.dateDisplay)} · ${escHtml(p.topic.substring(0,40))}${p.topic.length>40?'…':''}
+    </div>`).join('');
 
   const results = [];
-  for (let i = 0; i < rows.length; i++) {
-    document.getElementById('dot-' + i).className = 'step-dot active';
-    fillEl.style.width = Math.round((i / rows.length) * 100) + '%';
+  for (let i = 0; i < sorted.length; i++) {
+    document.getElementById('dot-'+i).className = 'step-dot active';
+    fillEl.style.width = Math.round((i/sorted.length)*100)+'%';
     try {
-      const result = await generateForRow(rows[i], college, tone, apiKey);
-      results.push({ row: rows[i], result });
-      document.getElementById('dot-' + i).className = 'step-dot done';
+      const result = await generateForPost(sorted[i], college, apiKey);
+      results.push({post: sorted[i], result});
+      document.getElementById('dot-'+i).className = 'step-dot done';
     } catch(e) {
-      document.getElementById('dot-' + i).style.background = '#ef4444';
-      document.getElementById('step-' + i).style.color = '#b91c1c';
-      results.push({ row: rows[i], result: null, error: e.message });
+      document.getElementById('dot-'+i).style.background = '#ef4444';
+      document.getElementById('step-'+i).style.color = '#b91c1c';
+      results.push({post: sorted[i], result: null, error: e.message});
     }
   }
 
   fillEl.style.width = '100%';
-  setTimeout(() => {
+  setTimeout(()=>{
     document.getElementById('progressWrap').style.display = 'none';
     document.getElementById('resultsSection').style.display = 'block';
-    document.getElementById('resultsCount').textContent = results.length + ' post' + (results.length !== 1 ? 's' : '');
+    document.getElementById('resultsCount').textContent = results.length + ' post' + (results.length!==1?'s':'');
 
-    const grid = document.getElementById('postsGrid');
-    grid.innerHTML = results.map((r, i) => {
-      if (r.error) return `<div class="error-msg"><strong>Row ${i+1} failed</strong> (${escHtml(r.row.topic || '')}): ${escHtml(r.error)}</div>`;
-      return renderCard(r.row, r.result, i);
+    document.getElementById('postsGrid').innerHTML = results.map((r,i)=>{
+      if (r.error) return `<div class="error-msg"><strong>${escHtml(r.post.dateDisplay)} failed:</strong> ${escHtml(r.error)}</div>`;
+      return renderCard(r.post, r.result, i);
     }).join('');
 
     btn.disabled = false;
-    document.getElementById('genBtnText').textContent = '✦ Regenerate Posts';
+    document.getElementById('genBtnText').textContent = '✦ Generate All Posts';
   }, 400);
 }
+
+// ─── INIT ─────────────────────────────────────────────────
+renderCalendar();
+renderScheduleList();
 </script>
 </body>
 </html>
