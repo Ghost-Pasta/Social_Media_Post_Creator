@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PostCraft — Community College Social Media</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f1f3d;--navy-mid:#1a3260;--accent:#e8632a;--accent-light:#fff0ea;
+  --gold:#f0a500;--surface:#f7f5f0;--white:#ffffff;--border:#e2ddd6;
+  --text:#1a1a1a;--muted:#6b6560;--success:#2a7a3b;--success-bg:#edf7ef;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);min-height:100vh}
+h1,h2,h3{font-family:'DM Serif Display',serif}
+
+.header{background:var(--navy);padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo span{font-family:'DM Serif Display',serif;font-size:1.25rem;color:#fff;letter-spacing:0.02em}
+.header-logo .dot{width:8px;height:8px;background:var(--accent);border-radius:50%;display:inline-block}
+.header-tag{font-size:11px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.1em}
+
+.layout{display:grid;grid-template-columns:360px 1fr;min-height:calc(100vh - 64px)}
+.panel-left{background:var(--white);border-right:1px solid var(--border);padding:1.5rem;display:flex;flex-direction:column;gap:1.25rem;overflow-y:auto}
+.panel-right{padding:1.5rem;display:flex;flex-direction:column;gap:1rem;overflow-y:auto}
+
+.api-key-box{background:#fffbf0;border:1px solid #f0c060;border-radius:10px;padding:1rem}
+.api-key-box label{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#7a5c00;display:block;margin-bottom:0.4rem}
+.api-key-box input{width:100%;border:1px solid #e0c070;border-radius:7px;padding:0.55rem 0.75rem;font-family:'DM Sans',sans-serif;font-size:0.82rem;background:#fffff8;color:var(--text)}
+.api-key-box input:focus{outline:none;border-color:#b8860b}
+.api-key-box p{font-size:0.72rem;color:#8a6800;margin-top:0.4rem;line-height:1.5}
+.api-key-box a{color:#b8860b}
+
+.upload-zone{border:2px dashed var(--border);border-radius:12px;padding:1.5rem;text-align:center;cursor:pointer;transition:all 0.2s;position:relative}
+.upload-zone:hover{border-color:var(--accent);background:var(--accent-light)}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-icon{font-size:1.75rem;margin-bottom:0.4rem;display:block}
+.upload-zone h3{font-size:0.9rem;color:var(--text);margin-bottom:0.2rem}
+.upload-zone p{font-size:0.75rem;color:var(--muted)}
+
+.or-divider{display:flex;align-items:center;gap:0.75rem;color:var(--muted);font-size:0.78rem}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.field label{font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.4rem}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:0.6rem 0.75rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;background:var(--white);color:var(--text);transition:border-color 0.2s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--navy-mid)}
+.field textarea{height:140px;resize:vertical;line-height:1.5}
+
+.csv-hint{font-size:0.72rem;color:var(--muted);margin-top:0.4rem;line-height:1.6}
+.csv-hint code{background:var(--surface);padding:1px 5px;border-radius:4px;font-size:0.68rem;border:1px solid var(--border)}
+
+.btn-generate{width:100%;padding:0.875rem;background:var(--accent);color:#fff;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-generate:hover{background:#c9501f;transform:translateY(-1px)}
+.btn-generate:disabled{background:#c9bdb6;cursor:not-allowed;transform:none}
+
+.empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1rem;padding:3rem}
+.empty-icon{font-size:3.5rem}
+.empty-state h2{font-size:1.5rem;color:var(--navy)}
+.empty-state p{font-size:0.9rem;color:var(--muted);max-width:320px;line-height:1.6}
+.empty-state code{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:0.5rem 0.75rem;font-size:0.75rem;display:block;text-align:left;white-space:pre;margin-top:0.5rem;color:var(--text)}
+
+.progress-wrap{background:var(--white);border-radius:12px;padding:1.25rem;border:1px solid var(--border)}
+.progress-title{font-size:0.85rem;font-weight:600;color:var(--navy);margin-bottom:0.75rem;display:flex;align-items:center;gap:8px}
+.progress-bar-bg{background:var(--surface);border-radius:99px;height:6px;overflow:hidden}
+.progress-bar-fill{height:100%;background:var(--accent);border-radius:99px;transition:width 0.4s ease}
+.progress-steps{display:flex;flex-direction:column;gap:6px;margin-top:0.75rem}
+.progress-step{font-size:0.78rem;color:var(--muted);display:flex;align-items:center;gap:8px}
+.step-dot{width:7px;height:7px;border-radius:50%;background:var(--border);flex-shrink:0}
+.step-dot.done{background:var(--success)}
+.step-dot.active{background:var(--accent);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem}
+.results-header h2{font-size:1.1rem;color:var(--navy)}
+.results-count{font-size:0.78rem;color:var(--muted);background:var(--surface);padding:3px 10px;border-radius:99px;border:1px solid var(--border)}
+.posts-grid{display:flex;flex-direction:column;gap:1rem}
+
+.post-card{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:box-shadow 0.2s}
+.post-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+.post-card-header{padding:0.875rem 1rem;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);background:var(--surface)}
+.post-date-info div:first-child{font-size:0.82rem;font-weight:600;color:var(--navy)}
+.post-date-info div:last-child{font-size:0.74rem;color:var(--muted);margin-top:1px}
+.platform-badges{display:flex;gap:5px;margin-left:auto}
+.badge{font-size:0.68rem;font-weight:600;padding:2px 9px;border-radius:99px}
+.badge-ig{background:#fce4ec;color:#c2185b}
+.badge-fb{background:#e3f2fd;color:#1565c0}
+.badge-both{background:#ede7f6;color:#4527a0}
+
+.post-card-body{display:grid;grid-template-columns:1fr 1fr}
+.post-section{padding:1rem}
+.post-section+.post-section{border-left:1px solid var(--border)}
+.section-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:0.5rem;display:flex;align-items:center;gap:5px}
+.caption-text{font-size:0.82rem;line-height:1.7;color:var(--text);white-space:pre-wrap;word-break:break-word}
+.seo-title{font-size:0.85rem;font-weight:600;color:var(--navy);margin-bottom:0.35rem}
+.seo-desc{font-size:0.8rem;line-height:1.6;color:var(--muted);margin-bottom:0.5rem}
+.seo-keywords{display:flex;flex-wrap:wrap;gap:4px;margin-top:0.4rem}
+.keyword{font-size:0.68rem;padding:2px 8px;background:var(--accent-light);color:var(--accent);border-radius:99px;border:1px solid #f5c4a9}
+
+.post-card-footer{padding:0.625rem 1rem;border-top:1px solid var(--border);display:flex;gap:6px;justify-content:flex-end;background:var(--surface)}
+.btn-copy{font-size:0.75rem;padding:5px 14px;border:1px solid var(--border);border-radius:6px;background:var(--white);color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.btn-copy:hover{border-color:var(--navy);color:var(--navy)}
+.btn-copy.copied{background:var(--success-bg);border-color:var(--success);color:var(--success)}
+
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.error-msg{background:#fff5f5;border:1px solid #fca5a5;border-radius:8px;padding:0.75rem 1rem;font-size:0.82rem;color:#b91c1c;line-height:1.5}
+
+@media(max-width:800px){
+  .layout{grid-template-columns:1fr}
+  .post-card-body{grid-template-columns:1fr}
+  .post-section+.post-section{border-left:none;border-top:1px solid var(--border)}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">
+    <div class="dot"></div>
+    <span>PostCraft</span>
+    <span class="header-tag">— Community College Social Media</span>
+  </div>
+</div>
+
+<div class="layout">
+  <!-- LEFT PANEL -->
+  <div class="panel-left">
+
+    <div class="api-key-box">
+      <label>🔑 Google Gemini API Key (Free)</label>
+      <input type="password" id="apiKey" placeholder="AIza..." autocomplete="off">
+      <p>Free, no credit card required. Get your key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a> → "Get API Key"</p>
+    </div>
+
+    <div class="field">
+      <label>College name</label>
+      <input type="text" id="collegeName" placeholder="e.g. Riverside Community College">
+    </div>
+
+    <div class="field">
+      <label>Tone / voice</label>
+      <select id="tone">
+        <option value="friendly and approachable">Friendly &amp; approachable</option>
+        <option value="professional and informative">Professional &amp; informative</option>
+        <option value="energetic and motivational">Energetic &amp; motivational</option>
+        <option value="warm and community-focused">Warm &amp; community-focused</option>
+      </select>
+    </div>
+
+    <div class="upload-zone" id="uploadZone">
+      <input type="file" id="csvFile" accept=".csv,.txt" onchange="handleFileUpload(event)">
+      <span class="upload-icon">📋</span>
+      <h3>Upload schedule CSV</h3>
+      <p>Click to browse or drag &amp; drop</p>
+    </div>
+
+    <div class="or-divider">or paste CSV directly</div>
+
+    <div class="field">
+      <label>Paste CSV data</label>
+      <textarea id="csvInput" placeholder="date,time,platform,topic,description&#10;2025-05-12,10:00 AM,Instagram,Fall Enrollment,Remind students that fall enrollment is now open"></textarea>
+      <div class="csv-hint">
+        Required columns: <code>date</code> <code>time</code> <code>platform</code> <code>topic</code> <code>description</code><br>
+        Platform values: <code>Instagram</code> <code>Facebook</code> <code>Both</code>
+      </div>
+    </div>
+
+    <div id="errorMsg" class="error-msg" style="display:none"></div>
+
+    <button class="btn-generate" id="genBtn" onclick="generatePosts()">
+      <span id="genBtnText">✦ Generate Posts</span>
+    </button>
+
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="panel-right" id="rightPanel">
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">🗓️</div>
+      <h2>Ready to create posts</h2>
+      <p>Enter your API key, college name, paste or upload your CSV schedule, then click Generate.</p>
+      <code>date,time,platform,topic,description
+2025-05-12,10:00 AM,Instagram,Fall Enrollment,Enrollment is open
+2025-05-14,2:00 PM,Facebook,Campus Event,Spring career fair
+2025-05-16,9:00 AM,Both,Student Spotlight,Feature a student</code>
+    </div>
+    <div id="progressWrap" style="display:none" class="progress-wrap">
+      <div class="progress-title"><div class="spinner"></div> Generating posts…</div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-steps" id="progressSteps"></div>
+    </div>
+    <div id="resultsSection" style="display:none">
+      <div class="results-header">
+        <h2>Generated Posts</h2>
+        <span class="results-count" id="resultsCount">0 posts</span>
+      </div>
+      <div class="posts-grid" id="postsGrid"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function handleFileUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => { document.getElementById('csvInput').value = ev.target.result.trim(); };
+  reader.readAsText(file);
+  document.getElementById('uploadZone').style.borderColor = '#2a7a3b';
+  document.getElementById('uploadZone').querySelector('p').textContent = file.name + ' loaded ✓';
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/).filter(l => l.trim());
+  if (lines.length < 2) throw new Error('CSV must have a header row and at least one data row.');
+  const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/[^a-z0-9]/g, ''));
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    const vals = smartSplit(lines[i]);
+    const row = {};
+    headers.forEach((h, j) => row[h] = (vals[j] || '').trim().replace(/^"|"$/g, ''));
+    rows.push(row);
+  }
+  return rows;
+}
+
+function smartSplit(line) {
+  const result = []; let cur = ''; let inQ = false;
+  for (const c of line) {
+    if (c === '"') { inQ = !inQ; }
+    else if (c === ',' && !inQ) { result.push(cur); cur = ''; }
+    else cur += c;
+  }
+  result.push(cur);
+  return result;
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg; el.style.display = 'block';
+}
+function hideError() { document.getElementById('errorMsg').style.display = 'none'; }
+
+function escHtml(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function platformBadge(platform) {
+  const p = (platform || '').toLowerCase();
+  if (p.includes('both') || (p.includes('instagram') && p.includes('facebook'))) return '<span class="badge badge-both">IG + FB</span>';
+  if (p.includes('instagram')) return '<span class="badge badge-ig">Instagram</span>';
+  if (p.includes('facebook')) return '<span class="badge badge-fb">Facebook</span>';
+  return `<span class="badge" style="background:#f5f5f5;color:#555">${escHtml(platform)}</span>`;
+}
+
+async function callGemini(prompt, apiKey) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { temperature: 0.8, maxOutputTokens: 1000 }
+    })
+  });
+  const data = await resp.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.candidates[0].content.parts.map(p => p.text || '').join('');
+}
+
+async function generateForRow(row, college, tone, apiKey) {
+  const platform = row.platform || row.platforms || 'Social Media';
+  const topic = row.topic || row.subject || row.title || '';
+  const desc = row.description || row.caption || row.details || row.content || '';
+  const date = row.date || '';
+  const time = row.time || '';
+
+  const prompt = `You are a social media content creator for ${college || 'a community college'}.
+Generate content for a ${platform} post with a ${tone} tone.
+
+Topic: ${topic}
+Brief description: ${desc}
+Post date/time: ${date} ${time}
+
+Return ONLY valid JSON (no markdown, no backticks) in this exact format:
+{
+  "caption": "The full social media caption with emojis and hashtags appropriate for ${platform}. Make it engaging and complete.",
+  "seo_title": "An SEO-optimized title (60 chars max)",
+  "seo_description": "An SEO meta description summarizing this post (155 chars max)",
+  "keywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
+}`;
+
+  const raw = await callGemini(prompt, apiKey);
+  const clean = raw.replace(/```json|```/g, '').trim();
+  return JSON.parse(clean);
+}
+
+function renderCard(row, result, idx) {
+  const platform = row.platform || row.platforms || 'Social Media';
+  const topic = row.topic || row.subject || '';
+  const date = row.date || '';
+  const time = row.time || '';
+  const keywords = (result.keywords || []).map(k => `<span class="keyword">${escHtml(k)}</span>`).join('');
+
+  return `<div class="post-card" id="card-${idx}">
+    <div class="post-card-header">
+      <div class="post-date-info">
+        <div>📅 ${escHtml(date)} &nbsp;·&nbsp; ${escHtml(time)}</div>
+        <div>${escHtml(topic)}</div>
+      </div>
+      <div class="platform-badges">${platformBadge(platform)}</div>
+    </div>
+    <div class="post-card-body">
+      <div class="post-section">
+        <div class="section-label">✍️ Social Media Caption</div>
+        <div class="caption-text" id="cap-${idx}">${escHtml(result.caption)}</div>
+      </div>
+      <div class="post-section">
+        <div class="section-label">🔍 SEO Description</div>
+        <div class="seo-title" id="seotitle-${idx}">${escHtml(result.seo_title)}</div>
+        <div class="seo-desc" id="seodesc-${idx}">${escHtml(result.seo_description)}</div>
+        <div class="seo-keywords" id="seokw-${idx}">${keywords}</div>
+      </div>
+    </div>
+    <div class="post-card-footer">
+      <button class="btn-copy" onclick="copyCaption(${idx}, this)">Copy caption</button>
+      <button class="btn-copy" onclick="copySEO(${idx}, this)">Copy SEO</button>
+    </div>
+  </div>`;
+}
+
+function copyCaption(idx, btn) {
+  const text = document.getElementById('cap-' + idx).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied! ✓'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy caption'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function copySEO(idx, btn) {
+  const title = document.getElementById('seotitle-' + idx).innerText;
+  const desc = document.getElementById('seodesc-' + idx).innerText;
+  const kws = Array.from(document.getElementById('seokw-' + idx).querySelectorAll('.keyword')).map(k => k.innerText).join(', ');
+  navigator.clipboard.writeText(`SEO Title: ${title}\n\nMeta Description: ${desc}\n\nKeywords: ${kws}`).then(() => {
+    btn.textContent = 'Copied! ✓'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy SEO'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+async function generatePosts() {
+  hideError();
+  const apiKey = document.getElementById('apiKey').value.trim();
+  if (!apiKey) { showError('Please enter your Google Gemini API key first.'); return; }
+
+  const csvText = document.getElementById('csvInput').value.trim();
+  if (!csvText) { showError('Please paste CSV data or upload a CSV file first.'); return; }
+
+  let rows;
+  try { rows = parseCSV(csvText); }
+  catch(e) { showError('CSV parse error: ' + e.message); return; }
+  if (!rows.length) { showError('No data rows found in CSV.'); return; }
+
+  const college = document.getElementById('collegeName').value.trim() || 'a community college';
+  const tone = document.getElementById('tone').value;
+
+  const btn = document.getElementById('genBtn');
+  btn.disabled = true;
+  document.getElementById('genBtnText').textContent = 'Generating…';
+
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('resultsSection').style.display = 'none';
+  document.getElementById('progressWrap').style.display = 'block';
+
+  const stepsEl = document.getElementById('progressSteps');
+  const fillEl = document.getElementById('progressFill');
+
+  stepsEl.innerHTML = rows.map((r, i) => {
+    const topic = r.topic || r.subject || `Row ${i+1}`;
+    return `<div class="progress-step" id="step-${i}"><div class="step-dot" id="dot-${i}"></div>${escHtml(topic)}</div>`;
+  }).join('');
+
+  const results = [];
+  for (let i = 0; i < rows.length; i++) {
+    document.getElementById('dot-' + i).className = 'step-dot active';
+    fillEl.style.width = Math.round((i / rows.length) * 100) + '%';
+    try {
+      const result = await generateForRow(rows[i], college, tone, apiKey);
+      results.push({ row: rows[i], result });
+      document.getElementById('dot-' + i).className = 'step-dot done';
+    } catch(e) {
+      document.getElementById('dot-' + i).style.background = '#ef4444';
+      document.getElementById('step-' + i).style.color = '#b91c1c';
+      results.push({ row: rows[i], result: null, error: e.message });
+    }
+  }
+
+  fillEl.style.width = '100%';
+  setTimeout(() => {
+    document.getElementById('progressWrap').style.display = 'none';
+    document.getElementById('resultsSection').style.display = 'block';
+    document.getElementById('resultsCount').textContent = results.length + ' post' + (results.length !== 1 ? 's' : '');
+
+    const grid = document.getElementById('postsGrid');
+    grid.innerHTML = results.map((r, i) => {
+      if (r.error) return `<div class="error-msg"><strong>Row ${i+1} failed</strong> (${escHtml(r.row.topic || '')}): ${escHtml(r.error)}</div>`;
+      return renderCard(r.row, r.result, i);
+    }).join('');
+
+    btn.disabled = false;
+    document.getElementById('genBtnText').textContent = '✦ Regenerate Posts';
+  }, 400);
+}
+</script>
+</body>
+</html>
